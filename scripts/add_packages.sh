@@ -32,16 +32,6 @@ EOL
 sed -i -e '/boardname=/r /tmp/appendtext.txt' friendlywrt/target/linux/rockchip/armv8/base-files/root/setup.sh
 # }}
 
-# {{ Add mosdns
-(cd friendlywrt/package && {
-    [ -d luci-app-mosdns ] && rm -rf luci-app-mosdns
-    git clone https://github.com/sbwml/luci-app-mosdns.git -b v5
-})
-cat >> configs/rockchip/01-nanopi << EOF
-CONFIG_PACKAGE_mosdns=y
-EOF
-# }}
-
 # {{ Add luci-app-ssr-plus
 (cd friendlywrt/package && {
     [ -d helloworld ] && rm -rf helloworld
