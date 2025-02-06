@@ -92,6 +92,11 @@ jobs:
         EOL
         DEBUG_DOT_CONFIG=1 ./build.sh friendlywrt
 
+    - name: Patch feeds
+      run: |
+        cd project/friendlywrt
+        source ../../scripts/patch_feeds.sh
+
     - name: Download package
       run: |
         cd project/friendlywrt
