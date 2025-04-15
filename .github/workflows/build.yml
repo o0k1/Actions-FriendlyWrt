@@ -2,7 +2,7 @@ on:
   workflow_dispatch:
 jobs:
   prepare_release:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id
     steps:
     - name: Get release tag
