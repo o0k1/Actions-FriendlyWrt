@@ -2,7 +2,7 @@ on:
   workflow_dispatch:
 jobs:
   prepare_release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     if: github.event.repository.owner.id == github.event.sender.id
     steps:
     - name: Get release tag
@@ -26,7 +26,7 @@ jobs:
 
   build_friendlywrt:
     needs: prepare_release
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     if: github.event.repository.owner.id == github.event.sender.id
     strategy:
       matrix:
@@ -140,7 +140,7 @@ jobs:
 
   build_img:
     needs: [prepare_release,build_friendlywrt]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     if: github.event.repository.owner.id == github.event.sender.id
 
     strategy:
