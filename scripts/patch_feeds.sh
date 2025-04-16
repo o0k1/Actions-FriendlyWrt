@@ -6,3 +6,4 @@ git clone https://github.com/sbwml/packages_lang_golang -b 23.x feeds/packages/l
 
 # Install missing pcre libs (one possible solution)
 sudo apt install -y libpcre3 libpcre3-dev
+./scripts/feeds install libpcre
