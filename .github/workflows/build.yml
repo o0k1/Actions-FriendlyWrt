@@ -31,7 +31,7 @@ jobs:
     strategy:
       matrix:
         VERSION: ['24.10']
-        SET: [non-docker]
+        SET: [docker, non-docker]
 
     steps:
     - name: Checkout
@@ -48,7 +48,6 @@ jobs:
         sed -i -e 's/^(cat fa-toolchain/# (cat fa-toolchain/g' install.sh
         sed -i -e 's/^(tar xf fa-toolchain/# (tar xf fa-toolchain/g' install.sh
         sudo -E bash ./install.sh
-        sudo -E update-alternatives --install $(which python) python /usr/bin/python2.7 20
         sudo -E git config --global user.name 'GitHub Actions'
         sudo -E git config --global user.email 'noreply@github.com'
         git clone https://github.com/friendlyarm/repo
@@ -145,9 +144,9 @@ jobs:
 
     strategy:
       matrix:
-        VERSION: [23.05]
-        CPU: [rk3328, rk3528, rk3399, rk3566, rk3568, rk3588]
-        SET: [non-docker]
+        VERSION: ['23.05', '24.10']
+        CPU: [rk3328, rk3528, rk3399, rk3566, rk3568, rk3576, rk3588]
+        SET: [docker, non-docker]
     steps:
     - name: Checkout
       uses: actions/checkout@main
@@ -163,7 +162,6 @@ jobs:
         sed -i -e 's/^(cat fa-toolchain/# (cat fa-toolchain/g' install.sh
         sed -i -e 's/^(tar xf fa-toolchain/# (tar xf fa-toolchain/g' install.sh
         sudo -E bash ./install.sh
-        sudo -E update-alternatives --install $(which python) python /usr/bin/python2.7 20
         sudo -E git config --global user.name 'GitHub Actions'
         sudo -E git config --global user.email 'noreply@github.com'
         git clone https://github.com/friendlyarm/repo
@@ -229,6 +227,9 @@ jobs:
           ;;
         rk3566)
           MODEL=R3S-Series
+          ;;
+        rk3576)
+          MODEL=NanoPi-M5
           ;;
         rk3588)
           MODEL=T6-R6S-R6C-M6-Series
