@@ -65,3 +65,15 @@ CONFIG_PACKAGE_luci-i18n-vlmcsd-zh-cn=y
 CONFIG_PACKAGE_vlmcsd=y
 EOF
 # }}
+
+# {{ Add wifi driver for MT7922
+cat >> configs/rockchip/01-nanopi << EOF
+CONFIG_PACKAGE_kmod-mt7921-common=y
+CONFIG_PACKAGE_kmod-mt7921-firmware=y
+CONFIG_PACKAGE_kmod-mt7921u=y
+CONFIG_PACKAGE_kmod-mt7922-firmware=y
+CONFIG_PACKAGE_kmod-mt792x-common=y
+CONFIG_PACKAGE_kmod-mt792x-usb=y
+CONFIG_PACKAGE_mt7922bt-firmware=y
+EOF
+# }}
