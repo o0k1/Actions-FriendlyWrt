@@ -229,7 +229,7 @@ jobs:
           MODEL=R3S-Series
           ;;
         rk3576)
-          MODEL=NanoPi-M5
+          MODEL=M5-R76S-Series
           ;;
         rk3588)
           MODEL=T6-R6S-R6C-M6-Series
@@ -260,6 +260,9 @@ jobs:
     - name: Compile uboot and kernel
       run: |
         cd project
+        ## If you need to modify the kernel configuration, please edit the script below
+        # source ../scripts/custome_kernel_config.sh
+
         ./build.sh uboot
         ./build.sh kernel
 
