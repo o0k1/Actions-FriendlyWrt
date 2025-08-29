@@ -94,7 +94,7 @@ jobs:
     - name: Patch feeds
       run: |
         cd project/friendlywrt
-        source ../../scripts/patch_feeds.sh
+        source ../../scripts/patch_feeds.sh ${{ matrix.VERSION }}
 
     - name: Download package
       run: |
