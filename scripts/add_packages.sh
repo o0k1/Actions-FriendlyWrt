@@ -35,7 +35,7 @@ sed -i -e '/boardname=/r /tmp/appendtext.txt' friendlywrt/target/linux/rockchip/
 # {{ Add luci-app-ssr-plus
 (cd friendlywrt/package && {
     [ -d helloworld ] && rm -rf helloworld
-    git clone https://github.com/fw876/helloworld.git -b main
+    git clone https://github.com/fw876/helloworld.git -b master
 })
 cat >> configs/rockchip/01-nanopi << EOF
 CONFIG_DEFAULT_luci-app-ssr-plus=y
