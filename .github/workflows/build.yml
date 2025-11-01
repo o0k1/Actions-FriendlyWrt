@@ -34,6 +34,10 @@ jobs:
         SET: [non-docker]
 
     steps:
+    - name: Save some disk space
+      run: |
+        rm -rf /opt/hostedtoolcache
+
     - name: Checkout
       uses: actions/checkout@main
 
