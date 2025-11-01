@@ -39,14 +39,14 @@ sed -i -e '/boardname=/r /tmp/appendtext.txt' friendlywrt/target/linux/rockchip/
 })
 cat >> configs/rockchip/01-nanopi << EOF
 CONFIG_PACKAGE_luci-app-ssr-plus=y
-#CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Shadowsocks_Rust_Client=y
-#CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Shadowsocks_Rust_Server=y
+CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Shadowsocks_Rust_Client=y
+CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Shadowsocks_Rust_Server=y
 CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Xray=y
 CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_ChinaDNS_NG=y
-#CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_DNS2SOCKS=y
-#CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_MosDNS=y
-#CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Hysteria=y
-#CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Shadowsocks_Simple_Obfs=y
+CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_DNS2SOCKS=y
+CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_MosDNS=y
+CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Hysteria=y
+CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Shadowsocks_Simple_Obfs=y
 CONFIG_PACKAGE_luci-i18n-ssr-plus-zh-cn=y
 EOF
 # }}
