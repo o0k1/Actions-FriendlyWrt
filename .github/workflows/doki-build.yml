@@ -29,6 +29,7 @@ jobs:
     runs-on: ubuntu-22.04
     if: github.event.repository.owner.id == github.event.sender.id
     strategy:
+      fail-fast: false
       matrix:
         VERSION: ['24.10']
         SET: [docker, non-docker]
@@ -103,11 +104,15 @@ jobs:
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
+    - name: Pack workspace to prevent invalid path error
+      run: |
+        tar -zcvf workspace.tar.gz project
+
     - name: Upload prepared workspace
       uses: actions/upload-artifact@v5
       with:
         name: workspace_${{ matrix.VERSION }}_${{ matrix.SET }}
-        path: project
+        path: workspace.tar.gz
         retention-days: 3
 
   build_toolchain:
@@ -130,7 +135,10 @@ jobs:
       uses: actions/download-artifact@v6
       with:
         name: workspace_${{ matrix.VERSION }}_docker # 使用包含 docker 的工具链以包含更多可能用到的内容
-        path: project
+
+    - name: Unpack workspace
+      run: |
+        tar -zxvf workspace.tar.gz
 
     - name: Compile toolchain
       id: compile
@@ -175,7 +183,10 @@ jobs:
       uses: actions/download-artifact@v6
       with:
         name: workspace_${{ matrix.VERSION }}_${{ matrix.SET }}
-        path: project
+
+    - name: Unpack workspace
+      run: |
+        tar -zxvf workspace.tar.gz
 
     - name: Download built toolchain
       uses: actions/download-artifact@v6
