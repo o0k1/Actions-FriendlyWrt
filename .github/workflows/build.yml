@@ -1,5 +1,6 @@
 on:
-  workflow_dispatch:
+  watch:
+    types: started
 jobs:
   prepare_release:
     runs-on: ubuntu-22.04
@@ -30,14 +31,10 @@ jobs:
     if: github.event.repository.owner.id == github.event.sender.id
     strategy:
       matrix:
-        VERSION: ['24.10']
-        SET: [non-docker]
+        VERSION: ['23.05', '24.10']
+        SET: [docker, non-docker]
 
     steps:
-    - name: Save some disk space
-      run: |
-        rm -rf /opt/hostedtoolcache
-
     - name: Checkout
       uses: actions/checkout@main
 
@@ -95,11 +92,6 @@ jobs:
         EOL
         DEBUG_DOT_CONFIG=1 ./build.sh friendlywrt
 
-    - name: Patch feeds
-      run: |
-        cd project/friendlywrt
-        source ../../scripts/patch_feeds.sh ${{ matrix.VERSION }}
-
     - name: Download package
       run: |
         cd project/friendlywrt
@@ -148,9 +140,9 @@ jobs:
 
     strategy:
       matrix:
-        VERSION: ['24.10']
+        VERSION: ['23.05', '24.10']
         CPU: [rk3328, rk3528, rk3399, rk3566, rk3568, rk3576, rk3588]
-        SET: [non-docker]
+        SET: [docker, non-docker]
     steps:
     - name: Checkout
       uses: actions/checkout@main
@@ -294,4 +286,3 @@ jobs:
         asset_name: ${{ steps.config.outputs.img_filename }}.gz
         tag: ${{ needs.prepare_release.outputs.release_tag }}
         overwrite: true
-
