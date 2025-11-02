@@ -228,6 +228,11 @@ jobs:
       run: |
         tar -zxvf toolchain.tar.gz
 
+    - name: Skip toolchain build # https://github.com/stupidloud/cachewrtbuild/blob/1dd9243/fetch.js#L65-L66C27
+      run: |
+        sed -i 's/ $(tool.*\\/stamp-compile)//;' Makefile
+        sed -i 's/ $(tool.*\\/stamp-install)//;' Makefile
+
     - name: Compile friendlyWrt
       id: compile
       continue-on-error: true
