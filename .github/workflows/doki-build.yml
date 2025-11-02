@@ -119,9 +119,12 @@ jobs:
         VERSION: ['24.10']
 
     steps:
-    - name: Save some disk space
+
+    - name: Initialize environment
       run: |
-        rm -rf /opt/hostedtoolcache
+        sudo swapoff -a
+        sudo rm -rf /usr/share/dotnet /usr/local/lib/android/sdk /usr/local/share/boost /opt/ghc
+        sudo rm -rf /opt/hostedtoolcache
 
     - name: Download prepared workspace
       uses: actions/download-artifact@v6
@@ -160,9 +163,13 @@ jobs:
         SET: [docker, non-docker]
 
     steps:
-    - name: Save some disk space
+
+    - name: Initialize environment
       run: |
-        rm -rf /opt/hostedtoolcache
+        mkdir -p ./artifact
+        sudo swapoff -a
+        sudo rm -rf /usr/share/dotnet /usr/local/lib/android/sdk /usr/local/share/boost /opt/ghc
+        sudo rm -rf /opt/hostedtoolcache
 
     - name: Download prepared workspace
       uses: actions/download-artifact@v6
