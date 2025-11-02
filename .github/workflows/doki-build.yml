@@ -104,7 +104,7 @@ jobs:
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
-    - name: Pack workspace to prevent invalid path error
+    - name: Pack workspace # to prevent invalid path error
       run: |
         tar -zcvf workspace.tar.gz project
 
@@ -154,11 +154,15 @@ jobs:
         cd project/friendlywrt
         make -j1 V=s toolchain/install
 
+    - name: Pack toolchain # to prevent case insensitive warning, maybe also download fail error
+      run: |
+        tar -zcvf toolchain.tar.gz project/friendlywrt/staging_dir
+
     - name: Upload built toolchain
       uses: actions/upload-artifact@v5
       with:
         name: toolchain_${{ matrix.VERSION }}
-        path: project/friendlywrt/staging_dir
+        path: toolchain.tar.gz
         retention-days: 3
 
   build_rootfs:
@@ -192,7 +196,10 @@ jobs:
       uses: actions/download-artifact@v6
       with:
         name: toolchain_${{ matrix.VERSION }}
-        path: project/friendlywrt/staging_dir
+
+    - name: Unpack toolthain
+      run: |
+        tar -zxvf toolchain.tar.gz
 
     - name: Compile friendlyWrt
       id: compile
