@@ -210,6 +210,10 @@ jobs:
         sudo rm -rf /usr/share/dotnet /usr/local/lib/android/sdk /usr/local/share/boost /opt/ghc
         echo "cores: $(nproc)"
 
+    - name: Save some disk space
+      run: |
+        sudo rm -rf /opt/hostedtoolcache
+
     - name: Download prepared workspace
       uses: actions/download-artifact@v6
       with:
