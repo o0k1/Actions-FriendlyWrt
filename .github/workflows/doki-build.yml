@@ -106,7 +106,7 @@ jobs:
 
     - name: Pack workspace # to prevent invalid path error
       run: |
-        tar -zcvf workspace.tar.gz project
+        tar -zcf workspace.tar.gz project
 
     - name: Upload prepared workspace
       uses: actions/upload-artifact@v5
@@ -152,7 +152,7 @@ jobs:
 
     - name: Unpack workspace
       run: |
-        tar -zxvf workspace.tar.gz
+        tar -zxf workspace.tar.gz
 
     - name: Compile toolchain
       id: compile
@@ -170,7 +170,7 @@ jobs:
 
     - name: Pack toolchain # to prevent case insensitive warning, maybe also download fail error
       run: |
-        tar -zcvf toolchain.tar.gz project/friendlywrt/staging_dir
+        tar -zcf toolchain.tar.gz project/friendlywrt/staging_dir
 
     - name: Upload built toolchain
       uses: actions/upload-artifact@v5
@@ -221,7 +221,7 @@ jobs:
 
     - name: Unpack workspace
       run: |
-        tar -zxvf workspace.tar.gz
+        tar -zxf workspace.tar.gz
 
     - name: Download built toolchain
       uses: actions/download-artifact@v6
@@ -230,7 +230,7 @@ jobs:
 
     - name: Unpack toolthain
       run: |
-        tar -zxvf toolchain.tar.gz
+        tar -zxf toolchain.tar.gz
 
     - name: Skip toolchain build # https://github.com/stupidloud/cachewrtbuild/blob/1dd9243/fetch.js#L65-L66C27
       run: |
