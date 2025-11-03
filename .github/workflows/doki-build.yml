@@ -230,6 +230,7 @@ jobs:
 
     - name: Skip toolchain build # https://github.com/stupidloud/cachewrtbuild/blob/1dd9243/fetch.js#L65-L66C27
       run: |
+        cd project/friendlywrt
         sed -i 's/ $(tool.*\/stamp-compile)//;' Makefile
         sed -i 's/ $(tool.*\/stamp-install)//;' Makefile
 
