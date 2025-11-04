@@ -194,6 +194,15 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
+        sudo rm -rf /etc/apt/sources.list.d
+        wget https://raw.githubusercontent.com/friendlyarm/build-env-on-ubuntu-bionic/master/install.sh
+        sed -i -e 's/^apt-get -y install openjdk-8-jdk/# apt-get -y install openjdk-8-jdk/g' install.sh
+        sed -i -e 's/^\[ -d fa-toolchain \]/# [ -d fa-toolchain ]/g' install.sh
+        sed -i -e 's/^(cat fa-toolchain/# (cat fa-toolchain/g' install.sh
+        sed -i -e 's/^(tar xf fa-toolchain/# (tar xf fa-toolchain/g' install.sh
+        sudo -E bash ./install.sh
+        sudo -E git config --global user.name 'GitHub Actions'
+        sudo -E git config --global user.email 'noreply@github.com'
         mkdir -p ./artifact
         sudo swapoff -a
         echo "cores: $(nproc)"
