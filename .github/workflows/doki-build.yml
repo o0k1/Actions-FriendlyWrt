@@ -184,7 +184,7 @@ jobs:
     runs-on: ubuntu-22.04
     defaults:
       run:
-        working-directory: /mnt/build_rootfs # this is a hacky solution as /mnt is larger than root dir on the runner.
+        working-directory: /mnt # this is a hacky solution as /mnt is larger than root dir on the runner.
     if: github.event.repository.owner.id == github.event.sender.id
     strategy:
       matrix:
