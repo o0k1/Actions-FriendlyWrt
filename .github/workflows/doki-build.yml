@@ -181,7 +181,7 @@ jobs:
 
   build_rootfs:
     needs: [prepare_release, build_toolchain]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-slim
     if: github.event.repository.owner.id == github.event.sender.id
     strategy:
       matrix:
