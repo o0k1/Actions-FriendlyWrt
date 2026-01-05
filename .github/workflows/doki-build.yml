@@ -181,7 +181,7 @@ jobs:
 
   build_rootfs:
     needs: [prepare_release, build_toolchain]
-    runs-on: ubuntu-slim
+    runs-on: ubuntu-22.04
     if: github.event.repository.owner.id == github.event.sender.id
     strategy:
       matrix:
@@ -211,7 +211,11 @@ jobs:
       run: |
         sudo rm -rf /usr/share/dotnet /usr/local/share/boost /usr/local/lib/android /opt/ghc
         sudo rm -rf /opt/hostedtoolcache
+        sudo rm -rf /usr/lib/google-cloud-sdk
+        sudo docker image prune --all --force
+        sudo docker builder prune -a
         sudo rm -f /mnt/swapfile
+        sudo apt purge -y '^llvm-.*' 'php.*' '^mongodb-.*' '^mysql-.*' azure-cli google-cloud-cli google-chrome-stable firefox powershell microsoft-edge-stable mono-devel '^openjdk-.*' 'ruby*'
         sudo apt autoremove -y
         df -h
 
