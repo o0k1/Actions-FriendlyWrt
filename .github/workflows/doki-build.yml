@@ -1,5 +1,7 @@
 name: Build by Steps (Doki)
 on:
+  schedule:
+    - cron: '0 0 1 1,4,7,10 *'
   workflow_dispatch:
 jobs:
   prepare_release:
