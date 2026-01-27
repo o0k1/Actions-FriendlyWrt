@@ -26,6 +26,7 @@ jobs:
         prerelease: false
     outputs:
       release_tag: ${{ steps.release_tag.outputs.release_tag }}
+      release_id: ${{ steps.release.outputs.id }}
       upload_url: ${{ steps.release.outputs.upload_url }}
 
   prepare_workspace:
@@ -279,7 +280,7 @@ jobs:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: ./artifact/${{ steps.create_rootfs_package.outputs.rootfs_filename }}
         asset_name: ${{ steps.create_rootfs_package.outputs.rootfs_filename }}
-        tag: ${{ needs.prepare_release.outputs.release_tag }}
+        release_id: ${{ needs.prepare_release.outputs.release_id }}
         overwrite: true
 
   build_image:
@@ -433,7 +434,7 @@ jobs:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: ./artifact/${{ steps.config.outputs.img_filename }}.gz
         asset_name: ${{ steps.config.outputs.img_filename }}.gz
-        tag: ${{ needs.prepare_release.outputs.release_tag }}
+        release_id: ${{ needs.prepare_release.outputs.release_id }}
         overwrite: true
 
   publish_release:
