@@ -14,14 +14,15 @@ jobs:
         release_tag="FriendlyWrt-$(date +%Y-%m-%d)"
         echo "release_tag=$release_tag" >> $GITHUB_OUTPUT
 
-    - name: Create empty release
+    - name: Create empty release (draft)
       id: release
       uses: softprops/action-gh-release@v2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ steps.release_tag.outputs.release_tag }}
-        draft: false
+        body: "正在构建中，请稍候……"
+        draft: true
         prerelease: false
     outputs:
       release_tag: ${{ steps.release_tag.outputs.release_tag }}
@@ -434,3 +435,20 @@ jobs:
         asset_name: ${{ steps.config.outputs.img_filename }}.gz
         tag: ${{ needs.prepare_release.outputs.release_tag }}
         overwrite: true
+
+  publish_release:
+    needs: [prepare_release, build_rootfs, build_image]
+    runs-on: ubuntu-22.04
+    if: github.event.repository.owner.id == github.event.sender.id
+    steps:
+    - name: Publish release
+      uses: softprops/action-gh-release@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ needs.prepare_release.outputs.release_tag }}
+        draft: false
+        prerelease: false
+        make_latest: true
+        generate_release_notes: true
+        discussion_category_name: Releases
