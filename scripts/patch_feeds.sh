@@ -9,7 +9,7 @@ fi
 if [[ "${OPENWRT_VERSION}" =~ ^24\..+$ ]]; then
   # Bump go version for xtls-core (always use latest)
   rm -rf feeds/packages/lang/golang
-  git clone https://github.com/DokiDuck/openwrt-packages-lang-golang -b openwrt-master-pin-6982d97 feeds/packages/lang/golang
+  git clone https://github.com/DokiDuck/openwrt-packages-lang-golang -b coolsnowwolf-master feeds/packages/lang/golang
 fi
 
 # Set Rust build arg llvm.download-ci-llvm to false.
