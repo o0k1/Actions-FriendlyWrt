@@ -21,7 +21,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ steps.release_tag.outputs.release_tag }}
-        body: "正在构建中，请稍候……"
         draft: true
         prerelease: false
     outputs:
