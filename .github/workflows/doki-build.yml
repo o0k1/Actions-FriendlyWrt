@@ -6,7 +6,6 @@ on:
 jobs:
   prepare_release:
     runs-on: ubuntu-22.04
-    if: github.event.repository.owner.id == github.event.sender.id
     steps:
     - name: Get release tag
       id: release_tag
@@ -30,7 +29,6 @@ jobs:
 
   prepare_workspace:
     runs-on: ubuntu-22.04
-    if: github.event.repository.owner.id == github.event.sender.id
     strategy:
       fail-fast: false
       matrix:
@@ -121,7 +119,6 @@ jobs:
   build_toolchain:
     needs: prepare_workspace
     runs-on: ubuntu-22.04
-    if: github.event.repository.owner.id == github.event.sender.id
     strategy:
       matrix:
         VERSION: ['24.10']
@@ -185,7 +182,6 @@ jobs:
   build_rootfs:
     needs: [prepare_release, build_toolchain]
     runs-on: ubuntu-22.04
-    if: github.event.repository.owner.id == github.event.sender.id
     strategy:
       matrix:
         VERSION: ['24.10']
@@ -285,7 +281,6 @@ jobs:
   build_image:
     needs: [prepare_release, build_rootfs]
     runs-on: ubuntu-22.04
-    if: github.event.repository.owner.id == github.event.sender.id
 
     strategy:
       matrix:
@@ -439,7 +434,6 @@ jobs:
   publish_release:
     needs: [prepare_release, build_rootfs, build_image]
     runs-on: ubuntu-22.04
-    if: github.event.repository.owner.id == github.event.sender.id
     steps:
     - name: Publish release
       uses: softprops/action-gh-release@v2
