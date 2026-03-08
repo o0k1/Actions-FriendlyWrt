@@ -39,6 +39,7 @@ sed -i -e '/boardname=/r /tmp/appendtext.txt' friendlywrt/target/linux/rockchip/
 })
 cat >> configs/rockchip/01-nanopi << EOF
 CONFIG_PACKAGE_luci-app-ssr-plus=y
+CONFIG_PACKAGE_luci-app-ssr-plus_Nftables_Transparent_Proxy=y
 CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Shadowsocks_Rust_Client=y
 CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Shadowsocks_Rust_Server=y
 CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Xray=y
