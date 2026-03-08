@@ -1,4 +1,4 @@
-name: Build by Steps (Doki)
+name: Build customized image
 on:
   schedule:
     - cron: '0 0 1 * *'
