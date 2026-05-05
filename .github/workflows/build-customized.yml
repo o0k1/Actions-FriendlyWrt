@@ -184,6 +184,7 @@ jobs:
     needs: [prepare_release, build_toolchain]
     runs-on: ubuntu-22.04
     strategy:
+      fail-fast: false
       matrix:
         VERSION: ['25.12', '24.10']
         SET: [docker, non-docker]
