@@ -72,7 +72,7 @@ EOF
 # {{ Add luci-app-vlmcsd
 (cd friendlywrt/package && {
     [ -d luci-app-vlmcsd ] && rm -rf luci-app-vlmcsd
-    git clone https://github.com/o0k1/luci-app-vlmcsd.git -b master
+    git clone https://github.com/o0k1/openwrt-packages-vlmcsd.git -b immortalwrt-master
 })
 cat >> configs/rockchip/01-nanopi << EOF
 CONFIG_DEFAULT_luci-app-vlmcsd=y
