@@ -542,7 +542,7 @@ jobs:
           done
 
   publish_release:
-    needs: [prepare_release, build_rootfs, build_image]
+    needs: [prepare_release, build_rootfs, build_image, cleanup_intermediate_assets]
     runs-on: ubuntu-22.04
     steps:
     - name: Publish release
