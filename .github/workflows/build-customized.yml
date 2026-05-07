@@ -321,7 +321,7 @@ jobs:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: ./artifact/${{ steps.create_host_pm_package.outputs.host_pm_filename }}
         asset_name: ${{ steps.create_host_pm_package.outputs.host_pm_filename }}
-        tag: ${{ needs.prepare_release.outputs.release_tag }}
+        release_id: ${{ needs.prepare_release.outputs.release_id }}
         overwrite: true
 
   build_image:
@@ -509,7 +509,7 @@ jobs:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: ./artifact/${{ steps.config.outputs.archive_filename }}
         asset_name: ${{ steps.config.outputs.archive_filename }}
-        tag: ${{ needs.prepare_release.outputs.release_tag }}
+        release_id: ${{ needs.prepare_release.outputs.release_id }}
         overwrite: true
 
     - name: Upload XYZ.img.gz to release
