@@ -313,6 +313,7 @@ jobs:
         asset_name: ${{ steps.create_rootfs_package.outputs.rootfs_filename }}
         release_id: ${{ needs.prepare_release.outputs.release_id }}
         overwrite: true
+        draft: true
 
     - name: Upload host package-manager bundle
       if: matrix.SET == 'non-docker'
@@ -323,6 +324,7 @@ jobs:
         asset_name: ${{ steps.create_host_pm_package.outputs.host_pm_filename }}
         release_id: ${{ needs.prepare_release.outputs.release_id }}
         overwrite: true
+        draft: true
 
   build_image:
     needs: [prepare_release, build_rootfs]
@@ -511,6 +513,7 @@ jobs:
         asset_name: ${{ steps.config.outputs.archive_filename }}
         release_id: ${{ needs.prepare_release.outputs.release_id }}
         overwrite: true
+        draft: true
 
     - name: Upload XYZ.img.gz to release
       uses: svenstaro/upload-release-action@v2
@@ -520,6 +523,7 @@ jobs:
         asset_name: ${{ steps.config.outputs.img_filename }}.gz
         release_id: ${{ needs.prepare_release.outputs.release_id }}
         overwrite: true
+        draft: true
 
   cleanup_intermediate_assets:
     needs: [prepare_release, build_rootfs, build_image]
