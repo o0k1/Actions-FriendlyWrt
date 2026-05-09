@@ -103,6 +103,10 @@ jobs:
       run: |
         cd project/friendlywrt
         make download -j8
+
+    - name: Remove unnecessary files
+      run: |
+        cd project/friendlywrt
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
