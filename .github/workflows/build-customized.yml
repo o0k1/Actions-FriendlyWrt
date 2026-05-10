@@ -100,9 +100,18 @@ jobs:
         source ../../scripts/patch_feeds.sh ${{ matrix.VERSION }}
 
     - name: Download package
+      id: download
+      continue-on-error: true
       run: |
         cd project/friendlywrt
         make download -j8
+        echo $?
+
+    - name: Check the result and try again
+      if: steps.download.outcome == 'failure'
+      run: |
+        cd project/friendlywrt
+        make -j1 V=s download
 
     - name: Remove unnecessary files
       run: |
