@@ -32,7 +32,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        VERSION: ['25.12', '24.10']
+        VERSION: ['25.12']
         SET: [docker, non-docker]
 
     steps:
@@ -135,7 +135,7 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        VERSION: ['25.12', '24.10']
+        VERSION: ['25.12']
 
     steps:
 
@@ -199,7 +199,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        VERSION: ['25.12', '24.10']
+        VERSION: ['25.12']
         SET: [docker, non-docker]
 
     steps:
@@ -345,7 +345,7 @@ jobs:
 
     strategy:
       matrix:
-        VERSION: ['25.12', '24.10']
+        VERSION: ['25.12']
         CPU: [rk3328, rk3528, rk3399, rk3566, rk3568, rk3576, rk3588]
         SET: [docker, non-docker]
     steps:
