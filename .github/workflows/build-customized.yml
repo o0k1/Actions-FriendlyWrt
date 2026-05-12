@@ -319,25 +319,19 @@ jobs:
         echo "host_pm_filename=$host_pm_filename" >> $GITHUB_OUTPUT
 
     - name: Upload rootfs package
-      uses: svenstaro/upload-release-action@v2
+      uses: actions/upload-artifact@v5
       with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ./artifact/${{ steps.create_rootfs_package.outputs.rootfs_filename }}
-        asset_name: ${{ steps.create_rootfs_package.outputs.rootfs_filename }}
-        release_id: ${{ needs.prepare_release.outputs.release_id }}
-        overwrite: true
-        draft: true
+        name: rootfs_${{ matrix.VERSION }}_${{ matrix.SET }}
+        path: ./artifact/${{ steps.create_rootfs_package.outputs.rootfs_filename }}
+        retention-days: 3
 
     - name: Upload host package-manager bundle
       if: matrix.SET == 'non-docker'
-      uses: svenstaro/upload-release-action@v2
+      uses: actions/upload-artifact@v5
       with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ./artifact/${{ steps.create_host_pm_package.outputs.host_pm_filename }}
-        asset_name: ${{ steps.create_host_pm_package.outputs.host_pm_filename }}
-        release_id: ${{ needs.prepare_release.outputs.release_id }}
-        overwrite: true
-        draft: true
+        name: host_pm_${{ matrix.VERSION }}
+        path: ./artifact/${{ steps.create_host_pm_package.outputs.host_pm_filename }}
+        retention-days: 3
 
   build_image:
     needs: [prepare_release, build_rootfs]
@@ -390,34 +384,15 @@ jobs:
         repo sync -c scripts/sd-fuse  --no-clone-bundle
         repo sync -c toolchain  --no-clone-bundle
 
-    - name: Download friendlywrt rootfs (non-docker)
-      if: matrix.SET == 'non-docker'
-      uses: robinraju/release-downloader@v1.6
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Download rootfs
+      uses: actions/download-artifact@v6
       with:
-        repository: ${{ github.repository }}
-        tag: ${{ needs.prepare_release.outputs.release_tag }}
-        fileName: "rootfs-friendlywrt-${{ matrix.VERSION }}.tgz"
-
-    - name: Download friendlywrt rootfs (docker)
-      if: matrix.SET == 'docker'
-      uses: robinraju/release-downloader@v1.6
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        repository: ${{ github.repository }}
-        tag: ${{ needs.prepare_release.outputs.release_tag }}
-        fileName: "rootfs-friendlywrt-${{ matrix.VERSION }}-docker.tgz"
+        name: rootfs_${{ matrix.VERSION }}_${{ matrix.SET }}
 
     - name: Download host package-manager bundle
-      uses: robinraju/release-downloader@v1.6
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: actions/download-artifact@v6
       with:
-        repository: ${{ github.repository }}
-        tag: ${{ needs.prepare_release.outputs.release_tag }}
-        fileName: "host-pm-${{ matrix.VERSION }}.tgz"
+        name: host_pm_${{ matrix.VERSION }}
 
     - name: Prepare config
       id: config
@@ -538,28 +513,8 @@ jobs:
         overwrite: true
         draft: true
 
-  cleanup_intermediate_assets:
-    needs: [prepare_release, build_rootfs, build_image]
-    runs-on: ubuntu-22.04
-    if: github.event.repository.owner.id == github.event.sender.id
-    steps:
-    - name: Delete intermediate assets from release
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        RELEASE_TAG: ${{ needs.prepare_release.outputs.release_tag }}
-      run: |
-        gh release view "$RELEASE_TAG" \
-          --repo "$GITHUB_REPOSITORY" \
-          --json assets \
-          --jq '.assets[] | select(.name | startswith("rootfs-friendlywrt-") or startswith("host-pm-")) | .name' \
-        | while read -r asset; do
-            [ -z "$asset" ] && continue
-            echo "Deleting asset: $asset"
-            gh release delete-asset "$RELEASE_TAG" "$asset" --yes --repo "$GITHUB_REPOSITORY"
-          done
-
   publish_release:
-    needs: [prepare_release, build_rootfs, build_image, cleanup_intermediate_assets]
+    needs: [prepare_release, build_rootfs, build_image]
     runs-on: ubuntu-22.04
     steps:
     - name: Publish release
